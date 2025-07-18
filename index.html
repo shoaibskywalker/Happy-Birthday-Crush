@@ -165,6 +165,31 @@
             height: 100%;
             z-index: 1;
         }
+        .floating-name {
+    position: absolute;
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgba(255, 105, 180, 0.15);
+    white-space: nowrap;
+    pointer-events: none;
+    animation: floatAround 20s linear infinite;
+    z-index: 0;
+}
+
+@keyframes floatAround {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translate(100vw, 100vh) rotate(360deg);
+        opacity: 0.1;
+    }
+}
+
     </style>
 </head>
 
@@ -216,6 +241,30 @@
                         <h3 class="text-xl font-bold mb-2 text-pink-600">Your Spirit</h3>
                         <p class="text-gray-700">Your passion and energy are contagious. You make life exciting!</p>
                     </div>
+                    <div class="reason-card">
+    <div class="emoji text-3xl">👀</div>
+    <h3 class="text-xl font-bold mb-2 text-pink-600">Your Eyes</h3>
+    <p class="text-gray-700">
+        Your eyes speak a thousand emotions without saying a word — calm, curious, and endlessly beautiful.
+    </p>
+</div>
+<div class="reason-card">
+    <div class="emoji text-3xl">🎶</div>
+    <h3 class="text-xl font-bold mb-2 text-pink-600">Your Voice</h3>
+    <p class="text-gray-700">
+        Your voice is like a song I never get tired of — calm, comforting, and full of warmth.
+    </p>
+</div>
+<div class="reason-card">
+    <div class="emoji text-3xl">💖</div>
+    <h3 class="text-xl font-bold mb-2 text-pink-600">Your Everything</h3>
+    <p class="text-gray-700">
+        Everything about you — the way you are, the way you make me feel — is just perfect to me.
+    </p>
+</div>
+
+
+
                 </div>
                 <button class="btn" id="next-btn-3">A Little Surprise</button>
             </div>
@@ -238,17 +287,18 @@
             <!-- Step 5: Final Wish -->
             <div class="step" id="step5">
                 <div class="emoji">🎂</div>
+                <div id="bg-name">Sabreen ❤️</div>
                 <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gradient">My Birthday Wish For You</h2>
                 <p class="text-lg text-gray-700 mb-8">
                     May your year be filled with joy, laughter, and dreams come true. May you always know how special
                     you are to me and to everyone lucky enough to know you.
                 </p>
                 <p class="text-xl font-semibold text-pink-600 mb-8">
-                    Happy Birthday, my crush! ❤️
+                    Happy Birthday, Madam jii! ❤️
                 </p>
                 <button class="btn" id="confetti-btn">Celebrate!</button>
                 <p class="mt-8 text-gray-500">Made with ❤️ just for you</p>
-            </div>
+            </div>my crush
         </div>
     </div>
 
@@ -380,20 +430,42 @@
 
         function showStep(stepNumber) {
             // Hide all steps
-            document.querySelectorAll('.step').forEach(step => {
-                step.classList.remove('active');
-            });
+      document.querySelectorAll('.step').forEach(step => {
+        step.classList.remove('active');
+    });
 
-            // Show current step
-            document.getElementById(`step${stepNumber}`).classList.add('active');
+    // Show current step
+    document.getElementById(`step${stepNumber}`).classList.add('active');
 
-            // Update progress bar
-            updateProgressBar();
+    // Update progress bar
+    updateProgressBar();
 
-            // Special effect for last step
-            if (stepNumber === totalSteps) {
-                document.getElementById('confetti-btn').classList.add('animate-pulse');
-            }
+    // Special effect for last step
+    const floatingContainer = document.getElementById('floating-names-container');
+
+    if (stepNumber === totalSteps) {
+        document.getElementById('confetti-btn').classList.add('animate-pulse');
+
+        // Clear old names if any
+        floatingContainer.innerHTML = "";
+
+        // Create 20 floating name elements
+        for (let i = 0; i < 20; i++) {
+            const name = document.createElement('div');
+            name.classList.add('floating-name');
+            name.innerText = "Sabreen ❤️"; // Change to your crush's name
+
+            // Random position and delay
+            name.style.top = Math.random() * 100 + "vh";
+            name.style.left = Math.random() * 100 + "vw";
+            name.style.animationDuration = (10 + Math.random() * 15) + "s";
+            name.style.fontSize = (1.5 + Math.random() * 2) + "rem";
+            floatingContainer.appendChild(name);
+        }
+    } else {
+        // Clear names on other steps
+        floatingContainer.innerHTML = "";
+    }
         }
 
         // Button event listeners
@@ -478,6 +550,8 @@
         // Initialize progress bar
         updateProgressBar();
     </script>
+    <div id="floating-names-container"></div>
+
 </body>
 
 </html>
