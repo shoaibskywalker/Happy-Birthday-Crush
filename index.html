@@ -16,7 +16,7 @@
             font-family: 'Inter', sans-serif;
             height: 100vh;
             touch-action: manipulation;
-             background: linear-gradient(135deg, #f9a8d4, #f3e8ff);
+            background: linear-gradient(135deg, #f9a8d4, #f3e8ff);
         }
 
         #app {
@@ -95,25 +95,11 @@
         }
 
         @keyframes heartbeat {
-            0% {
-                transform: scale(1);
-            }
-
-            25% {
-                transform: scale(1.1);
-            }
-
-            50% {
-                transform: scale(1);
-            }
-
-            75% {
-                transform: scale(1.1);
-            }
-
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         .emoji {
@@ -165,37 +151,165 @@
             height: 100%;
             z-index: 1;
         }
+
+        /* Enhanced floating name animations */
+        #floating-names-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
         .floating-name {
-    position: absolute;
-    font-size: 2rem;
-    font-weight: bold;
-    color: rgba(255, 105, 180, 0.15);
-    white-space: nowrap;
-    pointer-events: none;
-    animation: floatAround 20s linear infinite;
-    z-index: 0;
-}
+            position: absolute;
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #ffc0cb, #ff69b4);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            white-space: nowrap;
+            pointer-events: none;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+            animation: floatAround 15s linear infinite, colorShift 3s ease-in-out infinite;
+        }
 
-@keyframes floatAround {
-    0% {
-        transform: translate(0, 0) rotate(0deg);
-        opacity: 0.1;
-    }
-    50% {
-        opacity: 0.3;
-    }
-    100% {
-        transform: translate(100vw, 100vh) rotate(360deg);
-        opacity: 0.1;
-    }
-}
+        .floating-name:nth-child(even) {
+            animation-direction: reverse;
+            animation-duration: 20s, 4s;
+        }
 
+        .floating-name.diagonal {
+            animation: floatDiagonal 18s linear infinite, colorShift 3s ease-in-out infinite;
+        }
+
+        .floating-name.vertical {
+            animation: floatVertical 12s linear infinite, colorShift 3s ease-in-out infinite;
+        }
+
+        .floating-name.spiral {
+            animation: floatSpiral 25s linear infinite, colorShift 3s ease-in-out infinite;
+        }
+
+        @keyframes floatAround {
+            0% {
+                transform: translate(-100px, 100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translate(calc(100vw + 100px), -100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatDiagonal {
+            0% {
+                transform: translate(-100px, -100px) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% { opacity: 0.7; }
+            50% { transform: translate(50vw, 50vh) rotate(180deg) scale(1.2); }
+            90% { opacity: 0.7; }
+            100% {
+                transform: translate(calc(100vw + 100px), calc(100vh + 100px)) rotate(360deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatVertical {
+            0% {
+                transform: translate(50vw, calc(100vh + 50px)) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.9; }
+            90% { opacity: 0.9; }
+            100% {
+                transform: translate(50vw, -100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatSpiral {
+            0% {
+                transform: translate(50vw, 50vh) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            25% { 
+                transform: translate(calc(50vw + 200px), calc(50vh - 200px)) rotate(90deg) scale(0.8);
+            }
+            50% { 
+                transform: translate(calc(50vw - 200px), calc(50vh - 200px)) rotate(180deg) scale(1.2);
+            }
+            75% { 
+                transform: translate(calc(50vw - 200px), calc(50vh + 200px)) rotate(270deg) scale(0.8);
+            }
+            90% { opacity: 0.6; }
+            100% {
+                transform: translate(calc(50vw + 200px), calc(50vh + 200px)) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Large background name */
+        .bg-name-large {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, rgba(255, 105, 180, 0.1), rgba(255, 20, 147, 0.1), rgba(255, 192, 203, 0.1));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            pointer-events: none;
+            z-index: 3;
+            animation: breathe 4s ease-in-out infinite, colorShift 6s ease-in-out infinite;
+            text-align: center;
+            line-height: 1;
+        }
+
+        @keyframes breathe {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.05);
+                opacity: 0.6;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .floating-name {
+                font-size: 1.8rem;
+            }
+            .bg-name-large {
+                font-size: 4rem;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div id="app">
         <div id="canvas-container"></div>
+        <div id="floating-names-container"></div>
 
         <div id="progress-container">
             <div id="progress-bar"></div>
@@ -228,8 +342,7 @@
                     <div class="reason-card">
                         <div class="emoji text-3xl">✨</div>
                         <h3 class="text-xl font-bold mb-2 text-pink-600">Your Kindness</h3>
-                        <p class="text-gray-700">The way you care about others is truly inspiring. You have the biggest
-                            heart.</p>
+                        <p class="text-gray-700">The way you care about others is truly inspiring. You have the biggest heart.</p>
                     </div>
                     <div class="reason-card">
                         <div class="emoji text-3xl">😊</div>
@@ -242,29 +355,26 @@
                         <p class="text-gray-700">Your passion and energy are contagious. You make life exciting!</p>
                     </div>
                     <div class="reason-card">
-    <div class="emoji text-3xl">👀</div>
-    <h3 class="text-xl font-bold mb-2 text-pink-600">Your Eyes</h3>
-    <p class="text-gray-700">
-        Your eyes speak a thousand emotions without saying a word — calm, curious, and endlessly beautiful.
-    </p>
-</div>
-<div class="reason-card">
-    <div class="emoji text-3xl">🎶</div>
-    <h3 class="text-xl font-bold mb-2 text-pink-600">Your Voice</h3>
-    <p class="text-gray-700">
-        Your voice is like a song I never get tired of — calm, comforting, and full of warmth.
-    </p>
-</div>
-<div class="reason-card">
-    <div class="emoji text-3xl">💖</div>
-    <h3 class="text-xl font-bold mb-2 text-pink-600">Your Everything</h3>
-    <p class="text-gray-700">
-        Everything about you — the way you are, the way you make me feel — is just perfect to me.
-    </p>
-</div>
-
-
-
+                        <div class="emoji text-3xl">👀</div>
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Your Eyes</h3>
+                        <p class="text-gray-700">
+                            Your eyes speak a thousand emotions without saying a word — calm, curious, and endlessly beautiful.
+                        </p>
+                    </div>
+                    <div class="reason-card">
+                        <div class="emoji text-3xl">🎶</div>
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Your Voice</h3>
+                        <p class="text-gray-700">
+                            Your voice is like a song I never get tired of — calm, comforting, and full of warmth.
+                        </p>
+                    </div>
+                    <div class="reason-card">
+                        <div class="emoji text-3xl">💖</div>
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Your Everything</h3>
+                        <p class="text-gray-700">
+                            Everything about you — the way you are, the way you make me feel — is just perfect to me.
+                        </p>
+                    </div>
                 </div>
                 <button class="btn" id="next-btn-3">A Little Surprise</button>
             </div>
@@ -287,7 +397,7 @@
             <!-- Step 5: Final Wish -->
             <div class="step" id="step5">
                 <div class="emoji">🎂</div>
-                <div id="bg-name">Sabreen ❤️</div>
+                <div class="bg-name-large" id="bg-name-large">Sabreen</div>
                 <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gradient">My Birthday Wish For You</h2>
                 <p class="text-lg text-gray-700 mb-8">
                     May your year be filled with joy, laughter, and dreams come true. May you always know how special
@@ -298,7 +408,7 @@
                 </p>
                 <button class="btn" id="confetti-btn">Celebrate!</button>
                 <p class="mt-8 text-gray-500">Made with ❤️ just for you</p>
-            </div>my crush
+            </div>
         </div>
     </div>
 
@@ -334,7 +444,7 @@
 
         const heartGeometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
 
-        // Create multiple hearts with different colors and properties
+        // Create multiple hearts
         const hearts = [];
         const colors = [
             0xff6b6b, 0xff8e8e, 0xffb3b3, 0xffd8d8,
@@ -352,20 +462,15 @@
             });
 
             const heart = new THREE.Mesh(heartGeometry, material);
-
-            // Random position and scale
             heart.position.x = (Math.random() - 0.5) * 50;
             heart.position.y = (Math.random() - 0.5) * 50;
             heart.position.z = (Math.random() - 0.5) * 50;
 
             const scale = Math.random() * 0.8 + 0.5;
             heart.scale.set(scale, scale, scale);
-
-            // Random rotation
             heart.rotation.x = Math.random() * Math.PI;
             heart.rotation.y = Math.random() * Math.PI;
 
-            // Store animation properties
             heart.userData = {
                 speedX: Math.random() * 0.02 - 0.01,
                 speedY: Math.random() * 0.02 - 0.01,
@@ -394,15 +499,12 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            // Animate hearts
             hearts.forEach(heart => {
-                // Floating animation
                 const time = Date.now() * 0.001;
                 heart.position.x = heart.userData.originalX + Math.sin(time * heart.userData.speedX * 10) * heart.userData.floatDistance;
                 heart.position.y = heart.userData.originalY + Math.sin(time * heart.userData.speedY * 10) * heart.userData.floatDistance;
                 heart.position.z = heart.userData.originalZ + Math.sin(time * heart.userData.speedZ * 10) * heart.userData.floatDistance;
 
-                // Rotation
                 heart.rotation.x += heart.userData.rotationSpeedX;
                 heart.rotation.y += heart.userData.rotationSpeedY;
             });
@@ -428,44 +530,66 @@
             document.getElementById('progress-bar').style.width = `${progress}%`;
         }
 
+        function createFloatingNames() {
+            const container = document.getElementById('floating-names-container');
+            container.innerHTML = '';
+
+            const animations = ['', 'diagonal', 'vertical', 'spiral'];
+            const name = 'Sabreen ❤️'; // Change this to the birthday person's name
+
+            // Create multiple floating names with different animations
+            for (let i = 0; i < 30; i++) {
+                const nameElement = document.createElement('div');
+                nameElement.classList.add('floating-name');
+                
+                // Add random animation class
+                const animationClass = animations[Math.floor(Math.random() * animations.length)];
+                if (animationClass) {
+                    nameElement.classList.add(animationClass);
+                }
+
+                nameElement.textContent = name;
+
+                // Random starting positions
+                nameElement.style.left = Math.random() * 100 + 'vw';
+                nameElement.style.top = Math.random() * 100 + 'vh';
+
+                // Random delays and durations
+                const delay = Math.random() * 5;
+                const duration = 12 + Math.random() * 15;
+                nameElement.style.animationDelay = `${delay}s, ${Math.random() * 2}s`;
+                nameElement.style.animationDuration = `${duration}s, ${3 + Math.random() * 2}s`;
+
+                // Random sizes
+                const fontSize = 1.5 + Math.random() * 2;
+                nameElement.style.fontSize = `${fontSize}rem`;
+
+                container.appendChild(nameElement);
+            }
+        }
+
         function showStep(stepNumber) {
             // Hide all steps
-      document.querySelectorAll('.step').forEach(step => {
-        step.classList.remove('active');
-    });
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
 
-    // Show current step
-    document.getElementById(`step${stepNumber}`).classList.add('active');
+            // Show current step
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            updateProgressBar();
 
-    // Update progress bar
-    updateProgressBar();
-
-    // Special effect for last step
-    const floatingContainer = document.getElementById('floating-names-container');
-
-    if (stepNumber === totalSteps) {
-        document.getElementById('confetti-btn').classList.add('animate-pulse');
-
-        // Clear old names if any
-        floatingContainer.innerHTML = "";
-
-        // Create 20 floating name elements
-        for (let i = 0; i < 20; i++) {
-            const name = document.createElement('div');
-            name.classList.add('floating-name');
-            name.innerText = "Sabreen ❤️"; // Change to your crush's name
-
-            // Random position and delay
-            name.style.top = Math.random() * 100 + "vh";
-            name.style.left = Math.random() * 100 + "vw";
-            name.style.animationDuration = (10 + Math.random() * 15) + "s";
-            name.style.fontSize = (1.5 + Math.random() * 2) + "rem";
-            floatingContainer.appendChild(name);
-        }
-    } else {
-        // Clear names on other steps
-        floatingContainer.innerHTML = "";
-    }
+            // Special effects for last step
+            if (stepNumber === totalSteps) {
+                document.getElementById('confetti-btn').classList.add('animate-pulse');
+                document.getElementById('bg-name-large').style.display = 'block';
+                createFloatingNames();
+            } else {
+                document.getElementById('floating-names-container').innerHTML = '';
+                const bgName = document.getElementById('bg-name-large');
+                if (bgName) {
+                    bgName.style.display = 'none';
+                }
+            }
         }
 
         // Button event listeners
@@ -531,26 +655,14 @@
                 });
             }, 600);
 
-            // Make hearts float up from the background
-            hearts.forEach(heart => {
-                gsap.to(heart.position, {
-                    y: heart.position.y - 30,
-                    duration: 3,
-                    ease: "power1.out"
-                });
-
-                gsap.to(heart.material, {
-                    opacity: 0,
-                    duration: 3,
-                    ease: "power1.out"
-                });
-            });
+            // Create even more floating names on confetti
+            setTimeout(createFloatingNames, 1000);
         });
 
-        // Initialize progress bar
+        // Initialize
         updateProgressBar();
+        showStep(1);
     </script>
-    <div id="floating-names-container"></div>
 
 </body>
 
